@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Install the pinned mdita-lsp server
+        run: |
+          version=$(sed -n "s/.*serverRelease = '\(v[^']*\)'.*/\1/p" src/locate.ts)
+          echo "Installing mdita-lsp $version"
+          curl -fsSL -o /tmp/mdita-lsp \
+            "https://github.com/aireilly/mdita-lsp/releases/download/$version/mdita-lsp-linux-amd64"
+          chmod +x /tmp/mdita-lsp
+          sudo mv /tmp/mdita-lsp /usr/local/bin/mdita-lsp
+          mdita-lsp --version
+
+      - name: Integration tests
+        run: xvfb-run -a npm run test:integration
+
+      - name: Package
+        run: npm run package -- --out mdita-lsp-ci.vsix
+
+      - name: Upload VSIX
+        uses: actions/upload-artifact@v4
+        with:
+          name: mdita-lsp-vsix
+          path: mdita-lsp-ci.vsix
+          if-no-files-found: error

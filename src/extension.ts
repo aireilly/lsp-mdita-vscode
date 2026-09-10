@@ -67,7 +67,7 @@ async function start(context: vscode.ExtensionContext): Promise<void> {
     try {
         server = await resolveServer(context);
     } catch (error) {
-        await reportStartupFailure(error);
+        reportStartupFailure(error);
         return;
     }
 
@@ -121,13 +121,21 @@ async function stopClient(): Promise<void> {
     }
 }
 
-async function reportStartupFailure(error: unknown): Promise<void> {
+/**
+ * Reports a failure to find or download a server. The notification is not
+ * awaited: nothing dismisses it in an automated session, and activation must
+ * not hang waiting for a click.
+ */
+function reportStartupFailure(error: unknown): void {
     status?.setStopped(errorText(error));
     outputChannel.appendLine(`Could not start mdita-lsp: ${errorText(error)}`);
 
     const openReleases = 'Open releases';
-    const choice = await vscode.window.showErrorMessage(`${extName}: ${errorText(error)}`, openReleases);
-    if (choice === openReleases) {
-        await vscode.env.openExternal(vscode.Uri.parse(releasesPageUrl));
-    }
+    void vscode.window.showErrorMessage(`${extName}: ${errorText(error)}`, openReleases)
+        .then((choice) => {
+            if (choice === openReleases) {
+                return vscode.env.openExternal(vscode.Uri.parse(releasesPageUrl));
+            }
+            return undefined;
+        });
 }

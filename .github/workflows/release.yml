@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Check the tag matches package.json
+        run: |
+          manifest=$(node -p "require('./package.json').version")
+          tagged="${GITHUB_REF_NAME#v}"
+          if [ "$manifest" != "$tagged" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $manifest" >&2
+            exit 1
+          fi
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Install the pinned mdita-lsp server
+        run: |
+          version=$(sed -n "s/.*serverRelease = '\(v[^']*\)'.*/\1/p" src/locate.ts)
+          echo "Installing mdita-lsp $version"
+          curl -fsSL -o /tmp/mdita-lsp \
+            "https://github.com/aireilly/mdita-lsp/releases/download/$version/mdita-lsp-linux-amd64"
+          chmod +x /tmp/mdita-lsp
+          sudo mv /tmp/mdita-lsp /usr/local/bin/mdita-lsp
+          mdita-lsp --version
+
+      - name: Integration tests
+        run: xvfb-run -a npm run test:integration
+
+      - name: Package
+        run: npm run package -- --out "mdita-lsp-${GITHUB_REF_NAME}.vsix"
+
+      - name: Publish
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mdita-lsp-*.vsix
+          generate_release_notes: true

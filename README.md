@@ -1,5 +1,7 @@
 # MDITA LSP for VS Code
 
+[![CI](https://github.com/aireilly/lsp-mdita-vscode/actions/workflows/ci.yml/badge.svg)](https://github.com/aireilly/lsp-mdita-vscode/actions/workflows/ci.yml)
+
 Integrates the [mdita-lsp][server] language server into VS Code for authoring
 the Markdown source formats of the [org.lwdita][lwdita] DITA-OT plug-in:
 Markdown DITA (`md`, `markdown`), MDITA (`mdita`), and MDITA maps
@@ -181,8 +183,23 @@ npm run test:integration
 ```
 
 `src/locate.ts` and `src/mapfile.ts` import nothing from `vscode`, so their
-tests run under plain mocha. `npm test` covers those. The integration suite
-boots a real extension host through `@vscode/test-electron`.
+tests run under plain mocha. `npm test` covers those, and needs no display.
+
+`npm run test:integration` boots a real extension host through
+`@vscode/test-electron`, opening the fixture workspace in `testdata/workspace`.
+That workspace holds a `.mdita-lsp.yaml` file, so the extension activates
+through its real activation event and the suite asserts against a live server.
+It needs `mdita-lsp` on your `PATH` and a display, so run it under `xvfb-run -a`
+on a headless machine.
+
+CI runs both suites on every push and pull request, installing the pinned
+server release first, and uploads the packaged `.vsix` as a build artifact.
+
+### Releasing
+
+Tag a commit `vX.Y.Z` and push the tag. The release workflow checks the tag
+against the `version` field in `package.json`, runs both suites, packages the
+extension, and attaches the `.vsix` to a GitHub release.
 
 ### Packaging
 

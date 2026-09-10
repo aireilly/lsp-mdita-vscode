@@ -1,0 +1,4 @@
+core:
+  mdita:
+    enable: true
+    profile: extended

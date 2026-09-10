@@ -126,6 +126,7 @@
     "pretest": "npm run compile && npm run lint",
     "test": "mocha \"out/test/unit/**/*.test.js\"",
     "test:integration": "node ./out/test/runTest.js",
+    "package": "vsce package",
     "vscode:prepublish": "webpack --mode production",
     "webpack": "webpack --mode development",
     "webpack-dev": "webpack --mode development --watch"
@@ -140,6 +141,7 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^3.9.2",
     "eslint": "^8.57.0",
     "glob": "^10.3.10",
     "mocha": "^10.3.0",
