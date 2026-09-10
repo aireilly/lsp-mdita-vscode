@@ -43,7 +43,7 @@ jobs:
         run: npm run package -- --out mdita-lsp-ci.vsix
 
       - name: Upload VSIX
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: mdita-lsp-vsix
           path: mdita-lsp-ci.vsix
