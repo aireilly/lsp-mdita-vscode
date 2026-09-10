@@ -122,9 +122,13 @@ describe('MDITA LSP extension', () => {
             return title ? result : undefined;
         });
 
-        const title = symbols.find((s) => s.name.includes('Introduction'));
-        assert.ok(title, 'no Introduction symbol');
-        assert.strictEqual(title.kind, vscode.SymbolKind.Class);
+        // Select by kind, not by name. The built-in outline contributes the
+        // same heading names with SymbolKind.String, and picking the first
+        // name match reads that one instead of ours.
+        const title = symbols.find(
+            (s) => s.name.includes('Introduction') && s.kind === vscode.SymbolKind.Class
+        );
+        assert.ok(title, 'no Introduction symbol from mdita-lsp');
 
         const section = title.children?.find((child) => child.name.includes('Setup'));
         assert.ok(section, `no Setup child, got ${title.children?.map((c) => c.name).join(', ')}`);
