@@ -1,5 +1,17 @@
 # Change log
 
+## [0.1.1]
+
+- Pins server release `v1.0.2`, which fixes the outline and symbol search.
+  Against `v1.0.1` every `textDocument/documentSymbol` request failed with
+  `TypeError: Cannot read properties of undefined (reading 'range')`, because
+  the server sent Go field names where LSP expects lowercase ones, and
+  `workspace/symbol` answered with a shape carrying no location.
+- The integration suite now asserts on symbol kinds and on diagnostics whose
+  source is `mdita-lsp`. Its earlier assertion passed against a server whose
+  symbol provider threw, because VS Code merges every symbol provider and its
+  built-in Markdown outline answered instead.
+
 ## [0.1.0]
 
 First release.

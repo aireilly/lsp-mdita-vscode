@@ -59,8 +59,8 @@ The extension is not on the Marketplace. Install the packaged `.vsix` from a
 [GitHub release][gh-releases].
 
 ```bash
-gh release download v0.1.0 --repo aireilly/lsp-mdita-vscode --pattern '*.vsix'
-code --install-extension mdita-lsp-v0.1.0.vsix
+gh release download v0.1.1 --repo aireilly/lsp-mdita-vscode --pattern '*.vsix'
+code --install-extension mdita-lsp-v0.1.1.vsix
 ```
 
 Through the UI instead: press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>,
@@ -76,7 +76,7 @@ git clone https://github.com/aireilly/lsp-mdita-vscode
 cd lsp-mdita-vscode
 npm install
 npm run package
-code --install-extension mdita-lsp-0.1.0.vsix
+code --install-extension mdita-lsp-0.1.1.vsix
 ```
 
 ## First run
