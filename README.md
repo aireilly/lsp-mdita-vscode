@@ -53,14 +53,98 @@ On top of the server, the extension contributes an `mditamap` language with
 Markdown highlighting, twelve MDITA snippets, and palette commands for the
 DITA-OT build.
 
-## Requirements
+## Installation
 
-None, in the usual case. The extension looks for the `mdita-lsp` binary and
-downloads the release it was built against when it finds none.
+The extension is not on the Marketplace. Install the packaged `.vsix` from a
+[GitHub release][gh-releases].
+
+```bash
+gh release download v0.1.0 --repo aireilly/lsp-mdita-vscode --pattern '*.vsix'
+code --install-extension mdita-lsp-v0.1.0.vsix
+```
+
+Through the UI instead: press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>,
+run **Extensions: Install from VSIX**, and pick the downloaded file.
+
+VS Code enables an extension as soon as it is installed. There is no separate
+enable step.
+
+### From source
+
+```bash
+git clone https://github.com/aireilly/lsp-mdita-vscode
+cd lsp-mdita-vscode
+npm install
+npm run package
+code --install-extension mdita-lsp-0.1.0.vsix
+```
+
+## First run
+
+### When the extension activates
+
+Installing it is not enough to make anything happen. The extension stays
+dormant until a folder you open holds one of these:
+
+- a `.mdita-lsp.yaml` file at its root
+- any `.mditamap` file
+
+Running one of the extension's commands also starts it. Opening a single
+Markdown file with no folder around it does nothing, which keeps the server
+away from projects that have nothing to do with DITA.
+
+Reload the window after installing, with **Developer: Reload Window**. Windows
+that were already open do not pick up a newly installed extension.
+
+### Checking it works
+
+The repository ships a fixture workspace with both markers in it. Clone it if
+you installed from a release and do not have a copy:
+
+```bash
+git clone https://github.com/aireilly/lsp-mdita-vscode
+code lsp-mdita-vscode/testdata/workspace
+```
+
+Open `intro.md`. You should see:
+
+| Where | What |
+|---|---|
+| Status bar, right side | `✓ MDITA`, with a tooltip naming the resolved binary and its version |
+| Above `# Introduction` | A `2 references` code lens |
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> | An outline listing Introduction and Setup |
+| <kbd>Ctrl</kbd>+<kbd>Space</kbd> after typing `](` | Completions for file paths |
+
+### When something is wrong
+
+Run **MDITA LSP: Show Output**. The first line names the binary that was
+resolved and the step of the search it came from.
+
+| Symptom | Cause |
+|---|---|
+| No status bar entry at all | The extension never activated. Check the folder for a marker, then reload the window |
+| `$(sync~spin) MDITA` that never settles | A download is in progress, or the server started and never answered `initialize` |
+| `$(error) MDITA` | The server was found and then exited. The output channel holds its transcript |
+| An error about an unsupported platform | No binary is published for your platform. Build the server from source, below |
+
+### Disabling or removing it
+
+Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>, find MDITA LSP, and use
+**Disable** or **Disable (Workspace)**. From a shell:
+
+```bash
+code --uninstall-extension vscode-aidanreilly.mdita-lsp
+```
+
+## The language server
+
+The extension needs the `mdita-lsp` binary and finds it on its own in the usual
+case, downloading the release it was built against when nothing is installed.
 
 Resolution order:
 
-1. `mdita-lsp.customCommand`, when set.
+1. `mdita-lsp.customCommand`, when set. Nothing below runs when this is set and
+   cannot be resolved.
 2. `mdita-lsp` on your `PATH`.
 3. `~/.local/bin`, `~/go/bin`, and `/usr/local/bin`, which is where
    `make install` and `go install` put it.
@@ -68,24 +152,22 @@ Resolution order:
 5. A fresh download of the pinned release from [GitHub][releases].
 
 Downloads cover Linux, macOS, and Windows on x64, plus Linux and macOS on
-arm64. On any other platform, build the server from source and put it on your
+arm64. On any other platform, build the server yourself and put it on your
 `PATH`:
 
 ```bash
 go install github.com/aireilly/mdita-lsp/cmd/mdita-lsp@latest
 ```
 
-## Activation
+To point the extension at a build tree rather than an installed binary, set
+`mdita-lsp.customCommand`:
 
-The extension starts when a workspace holds one of these:
-
-- a `.mdita-lsp.yaml` file at its root
-- any `.mditamap` file
-- an open file in the `mditamap` language
-
-Gating on a marker keeps the server away from Markdown projects that have
-nothing to do with DITA. Running any of the extension's commands also starts
-it.
+```json
+{
+  "mdita-lsp.customCommand": "go run ./cmd/mdita-lsp",
+  "mdita-lsp.customCommandDir": "/path/to/mdita-lsp"
+}
+```
 
 ## Commands
 
@@ -204,10 +286,12 @@ extension, and attaches the `.vsix` to a GitHub release.
 ### Packaging
 
 ```bash
-npm install -g @vscode/vsce
-vsce package
-vsce publish
+npm run package
 ```
+
+`vsce` is a dev dependency, so nothing has to be installed globally. The
+`.vsix` lands in the repository root. Publishing to the Marketplace needs a
+personal access token scoped to Marketplace > Manage for the publisher account.
 
 ### Bumping the pinned server release
 
@@ -230,6 +314,7 @@ https://github.com/aireilly/lsp-mdita-vscode/issues
 [server]: https://github.com/aireilly/mdita-lsp
 [server-issues]: https://github.com/aireilly/mdita-lsp/issues
 [releases]: https://github.com/aireilly/mdita-lsp/releases
+[gh-releases]: https://github.com/aireilly/lsp-mdita-vscode/releases
 [config]: https://github.com/aireilly/mdita-lsp#configuration
 [sublime]: https://github.com/aireilly/LSP-mdita
 [lwdita]: https://github.com/jelovirt/org.lwdita
