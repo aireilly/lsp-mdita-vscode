@@ -1,0 +1,158 @@
+{
+  "name": "mdita-lsp",
+  "displayName": "MDITA LSP",
+  "description": "Language server support for Markdown DITA, MDITA, and MDITA maps: diagnostics, cross-references, keyrefs, conrefs, task structure, and DITA-OT builds.",
+  "icon": "assets/logo.png",
+  "galleryBanner": {
+    "color": "#dbeae9",
+    "theme": "light"
+  },
+  "publisher": "vscode-aidanreilly",
+  "version": "0.1.0",
+  "license": "SEE LICENSE IN LICENSE",
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "markdown",
+    "mdita",
+    "dita",
+    "lwdita",
+    "lsp",
+    "keyref",
+    "conref",
+    "mditamap"
+  ],
+  "activationEvents": [
+    "workspaceContains:.mdita-lsp.yaml",
+    "workspaceContains:**/*.mditamap",
+    "onLanguage:mditamap"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "mditamap",
+        "aliases": [
+          "MDITA Map"
+        ],
+        "extensions": [
+          ".mditamap"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "mditamap",
+        "scopeName": "text.html.markdown.mditamap",
+        "path": "./syntaxes/mditamap.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "markdown",
+        "path": "./snippets/mdita.code-snippets"
+      },
+      {
+        "language": "mditamap",
+        "path": "./snippets/mdita.code-snippets"
+      }
+    ],
+    "commands": [
+      {
+        "command": "mdita-lsp.restartServer",
+        "title": "MDITA LSP: Restart Server"
+      },
+      {
+        "command": "mdita-lsp.showOutputChannel",
+        "title": "MDITA LSP: Show Output"
+      },
+      {
+        "command": "mdita-lsp.reloadConfiguration",
+        "title": "MDITA LSP: Reload Configuration"
+      },
+      {
+        "command": "mdita-lsp.build.xhtml",
+        "title": "MDITA LSP: Build with DITA-OT (XHTML)"
+      },
+      {
+        "command": "mdita-lsp.build.dita",
+        "title": "MDITA LSP: Build with DITA-OT (DITA)"
+      }
+    ],
+    "configuration": {
+      "title": "MDITA LSP",
+      "properties": {
+        "mdita-lsp.customCommand": {
+          "type": "string",
+          "markdownDescription": "When set, run the language server with this command instead of searching for the `mdita-lsp` binary.\n\nThe value is split on spaces: the first part is the command, the rest are arguments. Setting this disables the `PATH` search and the release download.",
+          "scope": "window"
+        },
+        "mdita-lsp.customCommandDir": {
+          "type": "string",
+          "markdownDescription": "Working directory for `#mdita-lsp.customCommand#`. Defaults to the workspace root.",
+          "scope": "window"
+        },
+        "mdita-lsp.codeLens.hideZeroReferences": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Hide code lenses on headings that have no references. Turn this off to see `0 references` lenses the way VS Code shows them for other languages.",
+          "scope": "window"
+        },
+        "mdita-lsp.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Verbosity of the LSP message trace written to the output channel.",
+          "scope": "window"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile && npm run lint",
+    "test": "mocha \"out/test/unit/**/*.test.js\"",
+    "test:integration": "node ./out/test/runTest.js",
+    "vscode:prepublish": "webpack --mode production",
+    "webpack": "webpack --mode development",
+    "webpack-dev": "webpack --mode development --watch"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.82.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.57.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.3.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.0",
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aireilly/lsp-mdita-vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/aireilly/lsp-mdita-vscode/issues"
+  }
+}

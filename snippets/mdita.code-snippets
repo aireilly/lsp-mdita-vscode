@@ -1,0 +1,101 @@
+{
+  "MDITA topic": {
+    "prefix": "mdita-topic",
+    "description": "MDITA topic template: front matter, title, short description, body",
+    "body": [
+      "---",
+      "\\$schema: \"${1:urn:oasis:names:tc:mdita:rng:topic.rng}\"",
+      "id: ${2:topic-id}",
+      "author: ${3:Author Name}",
+      "---",
+      "",
+      "# ${4:Topic Title}",
+      "",
+      "${5:Short description of the topic.}",
+      "",
+      "${0:Topic content goes here.}"
+    ]
+  },
+  "YAML front matter": {
+    "prefix": "frontmatter",
+    "description": "YAML front matter block",
+    "body": [
+      "---",
+      "\\$schema: \"${1:urn:oasis:names:tc:mdita:rng:topic.rng}\"",
+      "id: ${2:topic-id}",
+      "author: ${3:Author Name}",
+      "---",
+      "$0"
+    ]
+  },
+  "Task topic": {
+    "prefix": "task",
+    "description": "Task topic with prerequisite, procedure, and verification sections",
+    "body": [
+      "# ${1:Task title} {.task}",
+      "",
+      "${2:Short description of the task.}",
+      "",
+      "## Prerequisites",
+      "",
+      "${3:What the reader needs before starting.}",
+      "",
+      "## Procedure",
+      "",
+      "1.  ${4:First step.}",
+      "2.  ${5:Second step.}",
+      "",
+      "## Verification",
+      "",
+      "${0:How the reader confirms the task worked.}"
+    ]
+  },
+  "Cross reference": {
+    "prefix": "xref",
+    "description": "MDITA cross-reference link (<xref>)",
+    "body": "[${1:link text}](${2:filename}.md)$0"
+  },
+  "DITA fragment link": {
+    "prefix": "fragref",
+    "description": "DITA fragment addressing link (topic-id/element-id)",
+    "body": "[${1:link text}](${2:filename}.md#${3:topic-id}/${4:element-id})$0"
+  },
+  "MDITA map entry": {
+    "prefix": "mapentry",
+    "description": "MDITA map entry (<topicref>)",
+    "body": "- [${1:Topic Title}](${2:path/to/topic}.md)$0"
+  },
+  "Key reference": {
+    "prefix": "keyref",
+    "description": "DITA key reference, collapsed form (<xref keyref>)",
+    "body": "[${1:key-name}]$0"
+  },
+  "Key definition": {
+    "prefix": "keydef",
+    "description": "Key definition for a map file (<keydef>)",
+    "body": "[${1:key-name}]: ${2:path/to/topic}.md \"${3:Title}\"$0"
+  },
+  "Keyword key reference": {
+    "prefix": "datakeyref",
+    "description": "Inline keyword key reference (@keyref)",
+    "body": "<span data-keyref=\"${1:key-name}\">${2:fallback text}</span>$0"
+  },
+  "Content reference": {
+    "prefix": "conref",
+    "description": "DITA content reference (@conref)",
+    "body": "<${1:p} data-conref=\"${2:shared}.md#${3:topic-id}/${4:element-id}\">${5:fallback text}</${1:p}>$0"
+  },
+  "Content key reference": {
+    "prefix": "conkeyref",
+    "description": "DITA content key reference (@conkeyref)",
+    "body": "<${1:span} data-conkeyref=\"${2:key-name}/${3:element-id}\">${4:fallback text}</${1:span}>$0"
+  },
+  "Admonition": {
+    "prefix": "admonition",
+    "description": "Admonition block. Markdown DITA only, and only when the topic declares no $schema",
+    "body": [
+      "!!! ${1|note,tip,important,caution,warning|}",
+      "    ${0:Admonition content.}"
+    ]
+  }
+}

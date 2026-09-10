@@ -1,0 +1,14 @@
+.vscode/**
+.vscode-test/**
+docs/**
+out/**
+src/**
+.gitignore
+.eslintrc.json
+**/tsconfig.json
+**/*.map
+**/*.ts
+assets/logo.afphoto
+assets/logo.psd
+node_modules
+webpack.config.js

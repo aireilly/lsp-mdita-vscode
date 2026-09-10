@@ -1,0 +1,5 @@
+{
+  "scopeName": "text.html.markdown.mditamap",
+  "name": "MDITA Map",
+  "patterns": [{ "include": "text.html.markdown" }]
+}
