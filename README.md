@@ -224,7 +224,7 @@ Available in Markdown and `.mditamap` files.
 |---|---|
 | `mdita-topic` | Front matter with `$schema`, a title, a short description, and a body |
 | `frontmatter` | YAML front matter block |
-| `task` | Task topic with prerequisite, procedure, and verification sections |
+| `task` | Task topic: `$schema` task front matter, prerequisite, procedure, and verification sections |
 | `xref` | `[link text](filename.md)` |
 | `fragref` | `[link text](filename.md#topic-id/element-id)` |
 | `mapentry` | `- [Topic Title](path/to/topic.md)` |
@@ -235,8 +235,15 @@ Available in Markdown and `.mditamap` files.
 | `conkeyref` | `<span data-conkeyref="key-name/element-id">` |
 | `admonition` | `!!! note` with indented content |
 
-`admonition` applies to Markdown DITA files that declare no `$schema`. The
-plug-in enables admonitions nowhere else.
+`admonition` applies to Markdown DITA files, including topics typed by a `dita`
+`$schema`, from plug-in 6.2.0 onwards. Earlier plug-in versions enable
+admonitions only when the topic declares no `$schema`. The MDITA profiles never
+support them.
+
+The `$schema` choice in `mdita-topic` and `frontmatter` lists the Markdown DITA
+types first (`topic`, `concept`, `task`, `reference`, `map`), then the MDITA
+profiles. Prefer a `dita` value: the MDITA profiles cannot express a task, drop
+`{...}` attribute blocks, and reduce the element set.
 
 Front matter key completion comes from the server, with hover documentation on
 each key, so there are no snippets for it.
