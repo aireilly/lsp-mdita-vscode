@@ -1,5 +1,20 @@
 # Change log
 
+## [0.1.2]
+
+- Pins server release `v1.0.3`, which stops table cells being padded to a
+  common column width on format, and documents the `org.lwdita` version a
+  `$schema`-typed task needs.
+- The `$schema` snippets offer the Markdown DITA types first and the MDITA
+  profiles after, instead of defaulting to the MDITA extended profile. That
+  profile cannot express a task: the specialization is dropped, every H2
+  collapses to a generic `<section>`, and `{...}` attribute blocks appear as
+  literal title text.
+- The `task` snippet types the topic through `$schema` rather than a `{.task}`
+  class on the title.
+- Admonitions work in a topic typed by a `dita` `$schema` from `org.lwdita`
+  6.2.0, so the snippet description and README no longer say otherwise.
+
 ## [0.1.1]
 
 - Pins server release `v1.0.2`, which fixes the outline and symbol search.
