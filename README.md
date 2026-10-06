@@ -222,9 +222,9 @@ Available in Markdown and `.mditamap` files.
 
 | Prefix | Output |
 |---|---|
-| `mdita-topic` | Front matter with `$schema`, a title, a short description, and a body |
+| `mdita-topic` | Front matter, title, short description, body (see below) |
 | `frontmatter` | YAML front matter block |
-| `task` | Task topic: `$schema` task front matter, prerequisite, procedure, and verification sections |
+| `task` | Task front matter and three of the five task sections (see below) |
 | `xref` | `[link text](filename.md)` |
 | `fragref` | `[link text](filename.md#topic-id/element-id)` |
 | `mapentry` | `- [Topic Title](path/to/topic.md)` |
@@ -244,6 +244,54 @@ The `$schema` choice in `mdita-topic` and `frontmatter` lists the Markdown DITA
 types first (`topic`, `concept`, `task`, `reference`, `map`), then the MDITA
 profiles. Prefer a `dita` value: the MDITA profiles cannot express a task, drop
 `{...}` attribute blocks, and reduce the element set.
+
+`mdita-topic` expands to this. The first tab stop is the `$schema` value, which
+VS Code offers as a dropdown, so you pick the topic type before anything else:
+
+```markdown
+---
+$schema: "urn:oasis:names:tc:dita:xsd:topic.xsd"
+id: topic-id
+author: Author Name
+---
+
+# Topic Title
+
+Short description of the topic.
+
+Topic content goes here.
+```
+
+`task` expands to a typed task with three of the five section headings the
+plug-in recognizes. Its `$schema` is fixed, since a task skeleton is only ever
+a task:
+
+````markdown
+---
+$schema: urn:oasis:names:tc:dita:xsd:task.xsd
+id: task-id
+---
+
+# Task title
+
+Short description of the task.
+
+## Prerequisites
+
+What the reader needs before starting.
+
+## Procedure
+
+1.  First step.
+2.  Second step.
+
+## Verification
+
+How the reader confirms the task worked.
+````
+
+Add `## About this task` for `<context>` and `## Next steps` for `<postreq>`.
+Any other H2 in a task becomes a nested topic rather than a section.
 
 Front matter key completion comes from the server, with hover documentation on
 each key, so there are no snippets for it.
