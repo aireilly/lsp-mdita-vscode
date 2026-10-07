@@ -8,7 +8,7 @@
     "theme": "light"
   },
   "publisher": "vscode-aidanreilly",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "SEE LICENSE IN LICENSE",
   "engines": {
     "vscode": "^1.82.0"
@@ -31,11 +31,18 @@
   "activationEvents": [
     "workspaceContains:.mdita-lsp.yaml",
     "workspaceContains:**/*.mditamap",
-    "onLanguage:mditamap"
+    "onLanguage:mditamap",
+    "workspaceContains:**/*.mdita"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "languages": [
+      {
+        "id": "markdown",
+        "extensions": [
+          ".mdita"
+        ]
+      },
       {
         "id": "mditamap",
         "aliases": [

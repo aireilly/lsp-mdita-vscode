@@ -46,6 +46,8 @@ Everything the [mdita-lsp][server] language server supports:
 - File rename refactoring, updating markdown links and map references.
 - Map support for `.mditamap` files and `.md` files declaring the DITA map
   schema.
+- `.mdita` files open as Markdown and are indexed as MDITA, whether or not
+  they declare a `$schema`.
 - DITA fragment addressing, as in `file.md#topic-id/element-id`.
 - MDITA core and extended profile awareness.
 
@@ -88,6 +90,7 @@ dormant until a folder you open holds one of these:
 
 - a `.mdita-lsp.yaml` file at its root
 - any `.mditamap` file
+- any `.mdita` file
 
 Running one of the extension's commands also starts it. Opening a single
 Markdown file with no folder around it does nothing, which keeps the server

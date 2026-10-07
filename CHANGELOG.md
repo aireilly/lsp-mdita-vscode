@@ -1,5 +1,17 @@
 # Change log
 
+## [0.1.3]
+
+- Pins server release `v1.1.0`, which fixes the formatter corrupting tables
+  and hard line breaks, makes edit positions UTF-16 so a line with a non-ASCII
+  character no longer desyncs the buffer, and brings the diagnostics in line
+  with what `org.lwdita` v6.2.0 actually builds.
+- Opens `.mdita` files as Markdown and activates in a workspace that contains
+  one. The server indexes `.mdita` from v1.1.0, and a topic there is MDITA
+  whether or not it declares a `$schema`.
+- Diagnostic code 12, topic heading level against map nesting, is retired: the
+  plug-in builds that structure without a message.
+
 ## [0.1.2]
 
 - Pins server release `v1.0.3`, which stops table cells being padded to a
