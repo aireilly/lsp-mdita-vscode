@@ -14,6 +14,17 @@ surface while you write instead of during a DITA-OT build.
 This is the VS Code counterpart to [LSP-mdita][sublime], which wires the same
 server into Sublime Text.
 
+## Requirements
+
+**This extension targets [aireilly/org.lwdita][lwdita], a fork of
+[jelovirt/org.lwdita][upstream]. Version 6.3.0 or newer.** Against upstream,
+parts of what the extension reports will not match what the build produces:
+`implicit-task-sections` and its configurable titles exist only in the fork, so
+upstream turns every `## Prerequisites` into a nested topic instead of a
+`<prereq>`. Upstream's latest release is 5.9.1.
+
+See the [mdita-lsp README][server] for the install commands.
+
 ## Features
 
 Everything the [mdita-lsp][server] language server supports:
@@ -46,7 +57,7 @@ Everything the [mdita-lsp][server] language server supports:
 - File rename refactoring, updating markdown links and map references.
 - Map support for `.mditamap` files and `.md` files declaring the DITA map
   schema.
-- `.mdita` files open as Markdown and are indexed as MDITA, whether or not
+- `.mdita` files open as Markdown, and the server reads them as MDITA whether or not
   they declare a `$schema`.
 - DITA fragment addressing, as in `file.md#topic-id/element-id`.
 - MDITA core and extended profile awareness.
@@ -375,4 +386,5 @@ https://github.com/aireilly/lsp-mdita-vscode/issues
 [gh-releases]: https://github.com/aireilly/lsp-mdita-vscode/releases
 [config]: https://github.com/aireilly/mdita-lsp#configuration
 [sublime]: https://github.com/aireilly/LSP-mdita
-[lwdita]: https://github.com/jelovirt/org.lwdita
+[lwdita]: https://github.com/aireilly/org.lwdita
+[upstream]: https://github.com/jelovirt/org.lwdita

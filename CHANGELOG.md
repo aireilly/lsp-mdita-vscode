@@ -1,5 +1,16 @@
 # Change log
 
+## [0.1.4]
+
+- Pins server release `v1.2.0`, which removes the `core.mdita.profile`
+  setting and retires diagnostic code 4. The profile now comes from `$schema`,
+  and from the file extension otherwise; `core.mdita.apply_to_markdown` still
+  extends the MDITA checks to `.md` and `.markdown`. Absent YAML front matter
+  no longer draws a diagnostic, so a plain README in the workspace is quiet.
+- States up front that this targets the `aireilly/org.lwdita` fork, 6.3.0 or
+  newer. `implicit-task-sections` exists only there, so against upstream the
+  whole task-section model the extension reports does not apply.
+
 ## [0.1.3]
 
 - Pins server release `v1.1.0`, which fixes the formatter corrupting tables
