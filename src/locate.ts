@@ -7,7 +7,7 @@ import { execFile } from 'child_process';
  * The mdita-lsp release this extension is built against. Downloads are pinned
  * to it, and the downloaded binary is cached under a directory of this name.
  */
-export const serverRelease = 'v1.2.0';
+export const serverRelease = 'v1.3.0';
 
 export const releaseBaseUrl = 'https://github.com/aireilly/mdita-lsp/releases/download';
 export const releasesPageUrl = 'https://github.com/aireilly/mdita-lsp/releases';

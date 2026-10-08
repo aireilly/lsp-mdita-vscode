@@ -17,7 +17,7 @@ server into Sublime Text.
 ## Requirements
 
 **This extension targets [aireilly/org.lwdita][lwdita], a fork of
-[jelovirt/org.lwdita][upstream]. Version 6.3.0 or newer.** Against upstream,
+[jelovirt/org.lwdita][upstream]. Version 6.4.0 or newer.** Against upstream,
 parts of what the extension reports will not match what the build produces:
 `implicit-task-sections` and its configurable titles exist only in the fork, so
 upstream turns every `## Prerequisites` into a nested topic instead of a
@@ -44,7 +44,8 @@ Everything the [mdita-lsp][server] language server supports:
 - Rename refactoring across files.
 - Code actions to create a missing file, add front matter, add to a map, add
   task sections, fix non-breaking whitespace, repair footnotes and heading
-  levels, and run a DITA-OT build.
+  levels, change a heading that would nest a section, add the topic id to a
+  section link, and run a DITA-OT build.
 - DITA-OT build integration for the `xhtml` and `dita` output formats.
 - Formatting: table alignment, trailing whitespace cleanup, heading spacing,
   and a trailing newline. Tables realign on save.
@@ -60,6 +61,7 @@ Everything the [mdita-lsp][server] language server supports:
 - `.mdita` files open as Markdown, and the server reads them as MDITA whether or not
   they declare a `$schema`.
 - DITA fragment addressing, as in `file.md#topic-id/element-id`.
+- In concept and reference topics, `##` starts a `<section>`. Sections don't nest, so `###` is an error. Link to a section as `file.md#topic-id/heading`.
 - MDITA core and extended profile awareness.
 
 On top of the server, the extension contributes an `mditamap` language with
@@ -305,7 +307,8 @@ How the reader confirms the task worked.
 ````
 
 Add `## About this task` for `<context>` and `## Next steps` for `<postreq>`.
-Any other H2 in a task becomes a nested topic rather than a section.
+Any other H2 in a task becomes a nested topic rather than a section. In a
+concept or a reference, every unclassed H2 is a section.
 
 Front matter key completion comes from the server, with hover documentation on
 each key, so there are no snippets for it.

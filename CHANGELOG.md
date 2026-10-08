@@ -1,5 +1,19 @@
 # Change log
 
+## [0.1.5]
+
+- Pins server release `v1.3.0`, which models `##` in a concept or a reference
+  as a `<section>` of the topic rather than a nested topic, matching
+  `org.lwdita` 6.4.0. The outline marks those headings as sections, and hover
+  names the DITA element and the address a link needs.
+- Three diagnostics follow: a heading that would nest a section is an error
+  with a quick fix that changes its level, a link written as `file.md#heading`
+  to a section warns with a quick fix that rewrites it to
+  `file.md#topic-id/heading`, and the ordering trap in a generic topic now
+  names both headings and offers both ways out. Anchor completion offers the
+  qualified form for a section.
+- Generic topics and tasks are unchanged.
+
 ## [0.1.4]
 
 - Pins server release `v1.2.0`, which removes the `core.mdita.profile`

@@ -8,7 +8,7 @@
     "theme": "light"
   },
   "publisher": "vscode-aidanreilly",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "SEE LICENSE IN LICENSE",
   "engines": {
     "vscode": "^1.82.0"
