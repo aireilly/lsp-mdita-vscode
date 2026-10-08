@@ -1,5 +1,12 @@
 # Change log
 
+## [0.1.6]
+
+- Pins server release `v1.3.1`, which keeps the topic title out of the section
+  model. In a `$schema`-typed concept or reference the H1 carries no class, so
+  the title itself was treated as a section and anchor completion offered it as
+  a section address.
+
 ## [0.1.5]
 
 - Pins server release `v1.3.0`, which models `##` in a concept or a reference
